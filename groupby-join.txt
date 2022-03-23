@@ -1,3 +1,23 @@
+------ GROUP BY ---------
+
+1   SELECT EXTRACT(year FROM enrolment_date) AS year, COUNT(*) AS students_enrolled 
+    FROM `students` 
+    GROUP BY EXTRACT(year FROM enrolment_date);
+
+2   SELECT COUNT(*) AS 'teachers_same_office', `office_address` 
+    FROM `teachers` GROUP BY `office_address`;
+
+3   SELECT `exam_id` as exam_id, AVG(`vote`) AS avg_grade 
+    FROM `exam_student` group by `exam_id`;
+
+4   SELECT department_id as department_id, COUNT(name) as number_of_degrees 
+    FROM degrees 
+    GROUP BY department_id;
+
+
+
+--------- JOIN ------------
+
 1	SELECT * 
     FROM `students` 
     JOIN `degrees` ON `students`.`degree_id` = `degrees`.`id` 
@@ -29,5 +49,5 @@
     JOIN `course_teacher` on `course_teacher`.`course_id` = `courses`.`id` 
     JOIN `teachers` on `course_teacher`.`teacher_id` = `teachers`.`id` 
     WHERE `departments`.`id` = 5 ORDER BY `teachers`.`surname` ASC;
-    
+
 7	
