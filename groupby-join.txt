@@ -34,14 +34,20 @@
     WHERE `course_teacher`.`teacher_id` = 44;
 
 4	SELECT * 
-    FROM `students` JOIN `degrees` ON `students`.`degree_id` = `degrees`.`id` 
+    FROM `students` 
+    JOIN `degrees` ON `students`.`degree_id` = `degrees`.`id` 
     JOIN `departments` ON `degrees`.`department_id` = `departments`.`id` 
     ORDER BY `students`.`surname`, `students`.`name`;
 
-5	SELECT `degrees`.`name`, `teachers`.`name`, `teachers`.`surname`,`courses`.`name` 
-    FROM `degrees` JOIN `courses` ON `courses`.`degree_id` = `degrees`.`id` 
-    JOIN `course_teacher` ON `course_teacher`.`course_id` = `courses`.`id` 
-    JOIN `teachers` on `course_teacher`.`teacher_id` = `teachers`.`id`;
+5	SELECT `teachers`.`id` as teacher_id, 
+        `degrees`.`name` as degree, 
+        `teachers`.`name` as prof_name, 
+        `teachers`.`surname` as prof_surname, 
+        `courses`.`name` as course 
+    FROM `degrees` 
+    JOIN `courses`on`courses`.`degree_id` = `degrees`.`id` 
+    JOIN `course_teacher` on `course_teacher`.`course_id` = `courses`.`id` 
+    JOIN `teachers` on `course_teacher`.`teacher_id` = `teachers`.`id`;
 
 6	SELECT DISTINCT `teachers`.`name`, `teachers`.`surname` 
     FROM `departments` JOIN `degrees` on `degrees`.`department_id` = `departments`.`id` 
@@ -50,4 +56,10 @@
     JOIN `teachers` on `course_teacher`.`teacher_id` = `teachers`.`id` 
     WHERE `departments`.`id` = 5 ORDER BY `teachers`.`surname` ASC;
 
-7	
+7	SELECT count(`exam_student`.`exam_id`) as 'tentativi', max(`exam_student`.`vote`) as `voto_massimo`, `students`.`name` as `nome_studente`, `students`.`surname` as `cognome_studente`, `courses`.`name` as course
+    from `exam_student`
+    join `exams` on `exam_student`.`exam_id`
+    join `courses` on `courses`.`id` = `exams`.`courses_id`
+    join `students` on `exam_student`.`student_id` = `students`.`id`
+    group by `students`.`id`, `courses`.`id`
+    having `voto_massimo` >= 18;
